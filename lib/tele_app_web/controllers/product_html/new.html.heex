@@ -22,6 +22,15 @@
   <:actions>
     <.button>Save Product</.button>
   </:actions>
+    <table class="w-full">
+    <%= for itm <- Phoenix.HTML.Form.inputs_for(f, :attributes) do %>
+      <tr>
+        <%= Phoenix.HTML.Form.hidden_inputs_for(itm) %>
+        <td><.input field={{itm, :name}} type="text" label="Name"/> </td>
+        <td><.input field={{itm, :content}} type="text" label="Content"/> </td>
+      </tr>
+  <% end %>
+    </table>
 </.simple_form>
 
 <.back navigate={~p"/products"}>Back to products</.back>

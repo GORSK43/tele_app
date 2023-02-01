@@ -1,5 +1,7 @@
 defmodule TeleAppWeb.ProductHTML do
   use TeleAppWeb, :html
+# import Phoenix.HTML.Form, [:select, :form_for/2]
+  
 
   def select_category(f) do 
     all_categories = TeleApp.Catalog.list_categories()

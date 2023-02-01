@@ -54,4 +54,19 @@ defmodule TeleApp.CatalogFixtures do
 
     product
   end
+
+  @doc """
+  Generate a attribute.
+  """
+  def attribute_fixture(attrs \\ %{}) do
+    {:ok, attribute} =
+      attrs
+      |> Enum.into(%{
+        content: "some content",
+        name: "some name"
+      })
+      |> TeleApp.Catalog.create_attribute()
+
+    attribute
+  end
 end

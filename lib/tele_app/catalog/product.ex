@@ -12,6 +12,7 @@ defmodule TeleApp.Catalog.Product do
     field :visible, :boolean, default: false
 #   field :category_id, :id
     belongs_to :category, TeleApp.Catalog.Category
+    has_many :attributes, TeleApp.Catalog.Product.Attribute
 
     timestamps()
   end

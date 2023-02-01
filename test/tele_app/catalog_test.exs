@@ -126,4 +126,60 @@ defmodule TeleApp.CatalogTest do
       assert %Ecto.Changeset{} = Catalog.change_product(product)
     end
   end
+
+  describe "attributes" do
+    alias TeleApp.Catalog.Product.Attribute
+
+    import TeleApp.CatalogFixtures
+
+    @invalid_attrs %{content: nil, name: nil}
+
+    test "list_attributes/0 returns all attributes" do
+      attribute = attribute_fixture()
+      assert Catalog.list_attributes() == [attribute]
+    end
+
+    test "get_attribute!/1 returns the attribute with given id" do
+      attribute = attribute_fixture()
+      assert Catalog.get_attribute!(attribute.id) == attribute
+    end
+
+    test "create_attribute/1 with valid data creates a attribute" do
+      valid_attrs = %{content: "some content", name: "some name"}
+
+      assert {:ok, %Attribute{} = attribute} = Catalog.create_attribute(valid_attrs)
+      assert attribute.content == "some content"
+      assert attribute.name == "some name"
+    end
+
+    test "create_attribute/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Catalog.create_attribute(@invalid_attrs)
+    end
+
+    test "update_attribute/2 with valid data updates the attribute" do
+      attribute = attribute_fixture()
+      update_attrs = %{content: "some updated content", name: "some updated name"}
+
+      assert {:ok, %Attribute{} = attribute} = Catalog.update_attribute(attribute, update_attrs)
+      assert attribute.content == "some updated content"
+      assert attribute.name == "some updated name"
+    end
+
+    test "update_attribute/2 with invalid data returns error changeset" do
+      attribute = attribute_fixture()
+      assert {:error, %Ecto.Changeset{}} = Catalog.update_attribute(attribute, @invalid_attrs)
+      assert attribute == Catalog.get_attribute!(attribute.id)
+    end
+
+    test "delete_attribute/1 deletes the attribute" do
+      attribute = attribute_fixture()
+      assert {:ok, %Attribute{}} = Catalog.delete_attribute(attribute)
+      assert_raise Ecto.NoResultsError, fn -> Catalog.get_attribute!(attribute.id) end
+    end
+
+    test "change_attribute/1 returns a attribute changeset" do
+      attribute = attribute_fixture()
+      assert %Ecto.Changeset{} = Catalog.change_attribute(attribute)
+    end
+  end
 end

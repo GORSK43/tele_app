@@ -10,7 +10,9 @@ defmodule TeleAppWeb.ProductController do
   end
 
   def new(conn, _params) do
-    changeset = Catalog.change_product(%Product{})
+    attributes = for _ <- 1..9, do: %Product.Attribute{}
+    changeset = Product.changeset(%Product{ attributes: attributes }, %{})
+    IO.inspect changeset.data
     render(conn, :new, changeset: changeset)
   end
 
