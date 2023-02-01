@@ -1,0 +1,27 @@
+<h1>Корзина</h1>
+<%= if @cart.items == []  do %> 
+  <p>Ваша корзина пуста</p>
+<% else %>
+  <.form :let={f} action={~p"/cart"} for={@changeset}>
+    <ul>
+      <%= for item_form <- inputs_for(f, :items), item = item_form.data do %>
+
+        <li>
+          <div class="h-50 w-full rounded-lg bg-gray-200">
+            <h2>товар <%= item.product.name %> </h2>
+            <p>
+              <% IO.inspect(item_form) %>
+              <%= hidden_inputs_for(item_form) %>
+              <.input field={{item_form, :qty}} type="number" label="количество" />
+            </p>
+            Цена за шт.: <%= currency_to_str(ShoppingCart.total_item_price(item)) %>
+
+          </div>
+        </li>
+    <% end %>
+    </ul>
+    <%= submit "Обновить", class: "btn-dark" %>
+  </.form>
+  <b>Всего</b>: <%= currency_to_str(ShoppingCart.total_cart_price(@cart)) %>
+<% end %>
+<.link href={~p"/orders"} method="POST" class="btn-dark">Совершить заказ</.link>

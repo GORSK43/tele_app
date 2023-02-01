@@ -1,0 +1,18 @@
+<.header>
+  Edit Category <%= @category.id %>
+  <:subtitle>Use this form to manage category records in your database.</:subtitle>
+</.header>
+
+<.simple_form :let={f} for={@changeset} method="put" action={~p"/categories/#{@category}"}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={{f, :title}} type="text" label="Title" />
+  <.input field={{f, :title_short}} type="text" label="Title short" />
+  <.input field={{f, :description}} type="text" label="Description" />
+  <:actions>
+    <.button>Save Category</.button>
+  </:actions>
+</.simple_form>
+
+<.back navigate={~p"/categories"}>Back to categories</.back>

@@ -1,0 +1,30 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+
+.btn-primary {
+  @apply border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-indigo-600 focus:outline-none;
+}
+
+.btn-success {
+  @apply border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-green-600 focus:outline-none;
+}
+
+.btn-error {
+  @apply border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-red-600 focus:outline-none;
+}
+
+.btn-warning { 
+  @apply border border-yellow-500 bg-yellow-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-yellow-600 focus:outline-none;
+}
+.btn-info { 
+  @apply border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-teal-600 focus:outline-none;
+}
+.btn-dark {
+  @apply border border-gray-700 bg-gray-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-gray-800 focus:outline-none;
+}
+.btn-light { 
+  @apply border border-gray-200 bg-gray-200 text-gray-700 rounded-md px-4 py-2 m-2 transition duration-500 ease-in select-none hover:bg-gray-300 focus:outline-none;
+}

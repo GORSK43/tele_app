@@ -1,0 +1,25 @@
+<.header>
+  Listing Categories
+  <:actions>
+    <.link href={~p"/categories/new"}>
+      <.button class="btn-primary">New Category</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="categories" rows={@categories} row_click={&JS.navigate(~p"/categories/#{&1}")}>
+  <:col :let={category} label="Title"><%= category.title %></:col>
+  <:col :let={category} label="Title short"><%= category.title_short %></:col>
+  <:col :let={category} label="Description"><%= category.description %></:col>
+  <:action :let={category}>
+    <div class="sr-only">
+      <.link navigate={~p"/categories/#{category}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/categories/#{category}/edit"} class="btn-primary">Edit</.link>
+  </:action>
+  <:action :let={category}>
+    <.link href={~p"/categories/#{category}"} method="delete" data-confirm="Are you sure?" class="btn-error">
+      Delete
+    </.link>
+  </:action>
+</.table>

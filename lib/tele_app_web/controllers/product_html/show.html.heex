@@ -1,0 +1,25 @@
+<.header>
+Product <%= "#{@product.name} ID: #{@product.id}"  %>
+  <.link href={~p"/cart_items/?product_id=#{@product.id}"} method="POST">
+    <.button class={"btn-info"}>в корзину</.button>
+  </.link>
+  <:subtitle>This is a product record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/products/#{@product}/edit"}>
+      <.button class="btn-primary">Edit product</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @product.name %></:item>
+  <:item title="Name short"><%= @product.name_short %></:item>
+  <:item title="Категория"><%= @product.category.title %></:item>
+  <:item title="Article"><%= @product.article %></:item>
+  <:item title="Visible"><%= @product.visible %></:item>
+  <:item title="Price"><%= @product.price %></:item>
+  <:item title="Qty"><%= @product.qty %></:item>
+  <:item title="Description"><%= @product.description %></:item>
+</.list>
+
+<.back navigate={~p"/products"}>Back to products</.back>

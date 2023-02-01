@@ -1,0 +1,28 @@
+<.header>
+  Listing Products
+  <:actions>
+    <.link href={~p"/products/new"}>
+      <.button class="btn-primary">New Product</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="products" rows={@products} row_click={&JS.navigate(~p"/products/#{&1}")}>
+  <:col :let={product} label="Name"><%= product.name %></:col>
+  <:col :let={product} label="Name short"><%= product.name_short %></:col>
+  <:col :let={product} label="Категория"><%= product.category.title %></:col>
+  <:col :let={product} label="Article"><%= product.article %></:col>
+  <:col :let={product} label="Visible"><%= product.visible %></:col>
+  <:col :let={product} label="Price"><%= product.price %></:col>
+  <:col :let={product} label="Qty"><%= product.qty %></:col>
+  <:col :let={product} label="Description"><%= product.description %></:col>
+  <:action :let={product}>
+    <.link navigate={~p"/products/#{product}"} class="btn-dark">Show</.link>
+    <.link navigate={~p"/products/#{product}/edit"} class={"btn-light"}>Edit</.link>
+  </:action>
+  <:action :let={product}>
+    <.link href={~p"/products/#{product}"} method="delete" data-confirm="Are you sure?" class="btn-error">
+      Delete
+    </.link>
+  </:action>
+</.table>

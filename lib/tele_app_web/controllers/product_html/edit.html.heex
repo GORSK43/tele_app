@@ -1,0 +1,26 @@
+<.header>
+  Edit Product <%= @product.id %>
+  <:subtitle>Use this form to manage product records in your database.</:subtitle>
+</.header>
+
+<.simple_form :let={f} for={@changeset} method="put" action={~p"/products/#{@product}"}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={{f, :name}} type="text" label="Name" />
+  <.input field={{f, :name_short}} type="text" label="Name short" />
+  <.label for={"category_id"}>
+  Входит в категорию
+  <%= select_category(f) %>
+  </.label>
+  <.input field={{f, :article}} type="text" label="Article" />
+  <.input field={{f, :visible}} type="checkbox" label="Visible" />
+  <.input field={{f, :price}} type="number" label="Price" step="any" />
+  <.input field={{f, :qty}} type="number" label="Qty" />
+  <.input field={{f, :description}} type="text" label="Description" />
+  <:actions>
+    <.button>Save Product</.button>
+  </:actions>
+</.simple_form>
+
+<.back navigate={~p"/products"}>Back to products</.back>

@@ -1,0 +1,24 @@
+<.header>
+  Заказ <%= @order.id %>
+  <:subtitle>User UUID <%= @order.user_uuid %></:subtitle>
+</.header>
+
+<.list>
+  <:item title="User uuid"><%= @order.user_uuid %></:item>
+  <:item title="Products price"><%= TeleAppWeb.CartHTML.currency_to_str @order.products_price %></:item>
+</.list>
+
+
+  <ul>
+    <li :for={item <- @order.order_items}>
+      <%= item.product.name %>
+      (<%= item.qty %>) - <%= TeleAppWeb.CartHTML.currency_to_str(item.price) %>
+    </li>
+    
+    <li>
+      <strong>Total price:</strong>
+      <%= TeleAppWeb.CartHTML.currency_to_str(@order.products_price) %>
+    </li>
+  </ul>
+
+<span><.link href={~p"/cart"} class="btn-warning">Обратно в корзину</.link></span>
