@@ -34,13 +34,13 @@ defmodule TeleAppWeb.FaceLive do
     ~H"""
     <div :if={ :true }>
       <!-- menu -->
-      <div class="flex justify-between flex-wrap">
-            <.link patch={~p"/shop?category="} class="bg-gray-200 text-center w-full p-2 basis-1/3 border border-white">
-              <span>Все</span>
+      <div class="flex justify-between flex-wrap bg-gray-200">
+            <.link patch={~p"/shop?category="} phx-click={highlite_buttons()} class="bg-gray-400 text-center w-full p-2 basis-1/3 border border-white" role="button">
+              <span class="uppercase font-semibold">Все</span>
             </.link>
         <%= for category <- @categories do %>
-          <.link patch={~p"/shop?category=#{category.id}"} phx-click={JS.remove_class("bg-gray-200", to: ".btn") |> JS.add_class("bg-gray-800")} class="btn bg-gray-200 text-center w-full p-2 basis-1/3 border border-white" >
-            <span><%= category.title %></span>
+          <.link patch={~p"/shop?category=#{category.id}"} phx-click={highlite_buttons()} class="active:bg-gray-600 text-center w-full p-2 basis-1/3 border border-white" role="button" >
+            <span class="uppercase font-semibold"><%= category.title %></span>
             </.link>
         <% end  %>
       </div>
@@ -167,6 +167,12 @@ defmodule TeleAppWeb.FaceLive do
     do: if File.exists?("#{@product_img_dir}/#{id}.norm.jpg"),
       do: "#{@img_dir}/#{id}.norm.jpg",
       else: "#{@img_dir}/23.norm.jpg"
+
+  def highlite_buttons() do 
+    %JS{} 
+    |> JS.remove_class("bg-gray-400", to: "[role=button]") 
+    |> JS.add_class("bg-gray-400")
+  end
 
   def handle_event("add_product_to_cart", %{"prtid" => prtid}, socket) do 
     new_cart = 
