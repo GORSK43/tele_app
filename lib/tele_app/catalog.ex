@@ -141,7 +141,7 @@ defmodule TeleApp.Catalog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_product!(id), do: Repo.get!(Product, id) |> Repo.preload(:category)
+  def get_product!(id), do: Repo.get!(Product, id) |> Repo.preload([:category, :attributes])
 
   @doc """
   Creates a product.
@@ -160,8 +160,16 @@ defmodule TeleApp.Catalog do
     |> Product.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:attributes, with: &Product.Attribute.changeset/2)
     |> Ecto.Changeset.update_change(:attributes, fn(el) -> Enum.filter(el, & &1.valid?) end)  
-    |> Product.changeset(%{})
+    |> only_attribute_error()
     |> Repo.insert()
+  end
+
+  def only_attribute_error(%Ecto.Changeset{valid?: false, errors: []} = changeset) do 
+    Map.put(changeset, :valid?, :true)
+  end
+
+  def only_attribute_error(%Ecto.Changeset{} = changeset) do 
+    changeset 
   end
 
   #Add AKS 

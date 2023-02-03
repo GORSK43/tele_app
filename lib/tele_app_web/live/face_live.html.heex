@@ -1,0 +1,41 @@
+    <div id="explore">
+      <!-- menu -->
+      <div class="flex justify-between flex-wrap bg-gray-200">
+            <.link patch={~p"/shop?category="} phx-click={highlite_buttons()} class="bg-gray-400 text-center w-full p-2 basis-1/3 border border-white" role="button">
+              <span class="uppercase font-semibold">Все</span>
+            </.link>
+        <%= for category <- @categories do %>
+          <.link patch={~p"/shop?category=#{category.id}"} phx-click={highlite_buttons()} class="active:bg-gray-600 text-center w-full p-2 basis-1/3 border border-white" role="button" >
+            <span class="uppercase font-semibold"><%= category.title %></span>
+            </.link>
+        <% end  %>
+      </div>
+
+      <div class="flex flex-wrap justify-between">
+        <%= for product <- @products do %>
+          <.product_card name={product.name} prtid={product.id} price={product.price} qty={get_qty @cart, product.id} />
+        <% end %>
+      </div>
+
+      <button class="btn-dark w-full" phx-click={show_checkout()}>рассчитать</button>
+      <!-- Modal -->
+      <.modal id="prod_id" :if={@viewed_product}>
+        <:title><%= @viewed_product.name %></:title>
+        <img src={img_path(@viewed_product.id)}/>
+        <p><%=@viewed_product.description %></p>
+        <table class="w-3/4 mx-auto">
+          <%= for attr <- @viewed_product.attributes do %>
+            <tr>
+              <td class="px-4 font-medium"><%= attr.name %></td>
+              <td class="px-4"><%= attr.content %></td>
+            </tr>
+          <% end %>
+        </table>
+        <:cancel><button class="btn-light">Закрыть</button></:cancel>
+      </.modal>
+      <!-- End modal -->
+    </div>
+
+      <!-- Cart -->
+      <.cart cart={@cart} address={@address} show_map={@show_map}/>
+

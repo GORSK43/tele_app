@@ -44,7 +44,7 @@ let Hooks = {
           .then(resp => resp.json())
           .then(resp => {
               objManager.add(resp);
-              objManager.objects.options.set({ hasHint: false });
+              objManager.objects.options.set({ hasHint: false, openBalloonOnClick: false });
               objManager.objects.events.add('click',  (e) => {
                 var el = e.get('objectId');
                 var address = objManager.objects.getById(el).properties.balloonContent;

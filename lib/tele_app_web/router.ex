@@ -55,8 +55,9 @@ defmodule TeleAppWeb.Router do
 
   scope "/shop", TeleAppWeb do 
     pipe_through :browser
-    live "/", FaceLive, :main
+    live "/", FaceLive, :explore
     live "/checkout", FaceLive, :checkout
+    live "/delivery", FaceLive, :delivery
   end
 
   # Other scopes may use custom stacks.
