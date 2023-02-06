@@ -1,12 +1,12 @@
     <div id="explore">
       <!-- menu -->
       <div class="flex justify-between flex-wrap bg-gray-200">
-            <.link patch={~p"/shop?category="} phx-click={highlite_buttons()} class="bg-gray-400 text-center w-full p-2 basis-1/3 border border-white" role="button">
+            <.link patch={~p"/shop?category="} phx-click={highlite_buttons()} class="bg-gray-400 text-center text-[10px] w-full p-2 basis-1/3 border border-white" role="button">
               <span class="uppercase font-semibold">Все</span>
             </.link>
         <%= for category <- @categories do %>
           <.link patch={~p"/shop?category=#{category.id}"} phx-click={highlite_buttons()} class="active:bg-gray-600 text-center w-full p-2 basis-1/3 border border-white" role="button" >
-            <span class="uppercase font-semibold"><%= category.title %></span>
+            <span class="uppercase font-semibold text-[10px]"><%= category.title %></span>
             </.link>
         <% end  %>
       </div>
