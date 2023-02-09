@@ -38,7 +38,7 @@ defmodule TeleAppWeb.FaceLive do
     ~H"""
     <div>
       <h2 class="text-2xl text-gray-800 mt-8">Выбор пункта выдачи / постомата</h2>
-      <div phx-hook="YMap" phx-update="ignore" id="map" class="w-full" style="min-height:550px"></div>
+      <div phx-hook="YMap" phx-update="ignore" id="map" class="w-full bg-gray-200" style="min-height:550px"></div>
       <div class="w-full h-36 bg-sky-100 mb-2 p-4 text-sky-800">
         <%= Map.get(@address, :pvz) %>
       </div>
@@ -53,42 +53,42 @@ defmodule TeleAppWeb.FaceLive do
 
   def product_card(assigns) do
     ~H"""
-    <div class="basis-[50%] flex justify-between p-1">
-      <div class="rounded-lg border bg-white max-w-sm relative">
-        <div class={"absolute right-0 top-0 #{@qty && "visible" || "invisible"}"}>
+    <div class="flex flex-col">
+      
+      <div class="relative">
+        <div class={"absolute right-0 top-0 #{@qty && "inline-block" || "hidden"}"}>
           <div class="flex space-x-2 justify-center">
-            <span class="text-xs inline-block py-1.5 px-2.5 text-center align-baseline font-bold bg-blue-600 text-white rounded-full">
+            <span class="text-xs inline-block py-2 px-3 text-center align-baseline font-bold bg-blue-600 text-white rounded-full">
               <%= @qty %>
             </span>
           </div>
         </div>
-        <div
-          class="cursor-pointer"
-          phx-click={JS.push("viewed_product", value: %{id: @prtid}) |> show_modal("prod_id")}
-        >
-          <img class="rounded-t-lg" src={img_path(@prtid)} alt="" />
+        <div class="cursor-pointer">
+          <img class="rounded-t-lg" src={img_path(@prtid)} alt="" phx-click={JS.push("viewed_product", value: %{id: @prtid}) |> show_modal("prod_id")} />
         </div>
-        <div class="p-1">
-          <h5 class="text-blue-800 text-sm font-medium my-0.5"><%= currency_to_str(@price) %></h5>
-          <p class="text-gray-700 text-bold mb-1"><%= @name %></p>
+      </div>
+
+        <div class="p-1 grow flex flex-col">
+          <h5 class="text-blue-800 font-medium my-0.5"><%= currency_to_str(@price) %></h5>
+          <p class="text-gray-700 text-bold mb-1 grow"><%= @name %></p>
           <div class="flex justify-around">
             <button
               phx-click="add_product_to_cart"
               phx-value-prtid={@prtid}
-              class="basis-1/3 flex-auto btn-primary m-1 text-sm"
+              class="bg-orange-400 text-white grow rounded-md px-4 py-2 m-1"
             >
               &plus;
             </button>
             <button
               phx-click="remove_product_from_cart"
               phx-value-prtid={@prtid}
-              class={"basis-1/3 flex-auto btn-light m-1 text-sm #{@qty && "visible" || "invisible"}"}
+              class={"bg-stone-400 text-white grow rounded-md px-4 py-2 m-1 #{@qty && "inline-block" || "hidden"}"}
             >
-              del
+              &minus;
             </button>
           </div>
+
         </div>
-      </div>
     </div>
     """
   end
@@ -100,11 +100,11 @@ defmodule TeleAppWeb.FaceLive do
   def cart(assigns) do
     ~H"""
     <div id="checkout" class="hidden">
-      <h1 class="text-2xl">
-        Корзина
-          <button phx-click={show_catalog()} class="btn-primary float-right text-sm">изменить</button>
+      <h1 class="text-2xl leading-loose">
+        <span>Корзина</span>
+        <button phx-click={show_catalog()} class="btn-primary text-base float-right">изменить</button>
       </h1>
-      <table class="table-auto border-collapse w-full text-base">
+      <table class="table-fixed border-collapse w-full text-base">
         <tbody>
           <%= for item <- @cart.items do %>
             <tr>
@@ -115,11 +115,11 @@ defmodule TeleAppWeb.FaceLive do
                 <h3>
                   <%= item.product.name %> &nbsp; <span class="text-cyan-700">x <%= item.qty %></span>
                 </h3>
-                <span class="text-sm text-gray-800"><%= item.product.article %></span>
+                <span class="text-gray-800"><%= item.product.article %></span>
               </td>
               <td class="text-right">
                 <span>
-                  <%= currency_to_str(ShoppingCart.total_item_price(item)) %>
+                  <%= currency_to_str(ShoppingCart.total_item_price(item), nil) %>
                 </span>
               </td>
             </tr>
@@ -129,7 +129,7 @@ defmodule TeleAppWeb.FaceLive do
             <td><%= Map.get(@address, :pvz) %></td>
             <td class="text-right">
               <span>
-                <%= currency_to_str(Map.get(@address, :cost, Decimal.new(0))) %>
+                <%= currency_to_str(Map.get(@address, :cost, Decimal.new(0)), nil) %>
               </span>
             </td>
           </tr>
@@ -213,7 +213,7 @@ defmodule TeleAppWeb.FaceLive do
     {:noreply, socket}
   end
 
-  def currency_to_str(%Decimal{} = val), do: "#{Decimal.round(val, 2)} руб"
+  def currency_to_str(%Decimal{} = val, curr \\ " руб"), do: "#{Decimal.round(val, 2)}#{curr}"
 
   def get_qty(cart, product_id) do
     case Enum.filter(cart.items, fn item -> item.product_id == product_id end) do

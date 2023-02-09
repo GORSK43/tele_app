@@ -34,21 +34,27 @@ let Hooks = {
       // заданным id ("map").
       myMap = new ymaps.Map('map', {
         center: [55.76, 37.64], // Москва
-        zoom: 10
+        zoom: 6
         }, {
             searchControlProvider: 'yandex#search'
         });
-      var objManager = new ymaps.ObjectManager();
+      var objManager = new ymaps.ObjectManager({
+        clusterize: true,
+        gridSize: 128,
+        hasBalloon: false,
+        clusterDisableClickZoom: true
+      });
 
-        fetch('/assets/data2.json')
+        fetch('/assets/data22.json')
           .then(resp => resp.json())
           .then(resp => {
+              objManager.objects.options.set({ hasHint: false, hasBalloon: false });
+              // objManager.objects.options.set('preset', 'islands#greenDotIcon');
               objManager.add(resp);
-              objManager.objects.options.set({ hasHint: false, openBalloonOnClick: false });
               objManager.objects.events.add('click',  (e) => {
                 var el = e.get('objectId');
-                var address = objManager.objects.getById(el).properties.balloonContent;
-                sendPoint( {id: el, address: address });
+                // var address = objManager.objects.getById(el).properties.balloonContent;
+                sendPoint( {id: el, address: 'address' });
               });
               myMap.geoObjects.add(objManager);
               console.log("mounted")

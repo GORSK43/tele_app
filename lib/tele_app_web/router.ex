@@ -53,11 +53,11 @@ defmodule TeleAppWeb.Router do
     put "/cart", CartController, :update
   end
 
-  scope "/shop", TeleAppWeb do 
-    pipe_through :browser
-    live "/", FaceLive, :explore
-    live "/checkout", FaceLive, :checkout
-    live "/delivery", FaceLive, :delivery
+  live_session :shop, layout: {TeleAppWeb.Layouts, :live_app} do 
+    scope "/shop", TeleAppWeb do 
+      pipe_through :browser
+      live "/", FaceLive
+    end
   end
 
   # Other scopes may use custom stacks.

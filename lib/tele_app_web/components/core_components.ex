@@ -64,7 +64,7 @@ defmodule TeleAppWeb.CoreComponents do
       >
         <div class="flex min-h-full items-center justify-center">
           <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
-            <.focus_wrap
+            <div 
               id={"#{@id}-container"}
               phx-mounted={@show && show_modal(@id)}
               phx-window-keydown={hide_modal(@on_cancel, @id)}
@@ -115,7 +115,7 @@ defmodule TeleAppWeb.CoreComponents do
                   </.link>
                 </div>
               </div>
-            </.focus_wrap>
+            </div>
           </div>
         </div>
       </div>
